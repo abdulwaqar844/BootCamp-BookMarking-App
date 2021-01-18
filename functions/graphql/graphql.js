@@ -19,7 +19,7 @@ const resolvers = {
   Query: {
     BookMarks: async (parent, args, context) => {
       try {
-        var client = new faunadb.Client({ secret: "fnAD_yg40vACB6lgaLrJljlCJZ698-kMtMtr-3wZ" });
+        var client = new faunadb.Client({ secret: process.env.FAUNADB_SECRET });
         let result = await client.query(
           q.Map(
             q.Paginate(q.Match(q.Index('bookmark_index'))),
@@ -44,7 +44,7 @@ const resolvers = {
   Mutation: {
     addBookMark: async (_, { title, url }) => {
       try {
-        var client = new faunadb.Client({ secret: "fnAD_yg40vACB6lgaLrJljlCJZ698-kMtMtr-3wZ" });
+        var client = new faunadb.Client({ secret:process.env.FAUNADB_SECRET});
         let result = await client.query(
           q.Create(
             q.Collection('bookmarks'),
@@ -64,7 +64,7 @@ const resolvers = {
 
     deleteBookMark: async (_, { id }) => {
       try {
-        var client = new faunadb.Client({ secret: "fnAD_yg40vACB6lgaLrJljlCJZ698-kMtMtr-3wZ" });
+        var client = new faunadb.Client({ secret: process.env.FAUNADB_SECRET });
         let result = await client.query(
           q.Delete(
             q.Ref(q.Collection('bookmarks'), id)
