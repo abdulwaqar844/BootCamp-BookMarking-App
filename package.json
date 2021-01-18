@@ -1,0 +1,46 @@
+{
+  "name": "gatsby-starter-minimal",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A Gatsby starter with no plugins and a single welcome page.",
+  "author": "Laurie Barth",
+  "keywords": [
+    "gatsby"
+  ],
+  "scripts": {
+    "develop": "gatsby develop",
+    "start": "gatsby develop",
+    "build": "gatsby build",
+    "serve": "gatsby serve",
+    "clean": "gatsby clean"
+  },
+  "license": "0BSD",
+  "dependencies": {
+    "@apollo/client": "^3.3.6",
+    "@typescript-eslint/eslint-plugin": "^4.13.0",
+    "@typescript-eslint/parser": "^4.13.0",
+    "dotenv": "^8.2.0",
+    "gatsby": "^2.26.1",
+    "gatsby-image": "^2.5.0",
+    "cross-fetch": "^3.0.6",
+    "gatsby-plugin-manifest": "^2.6.1",
+    "gatsby-plugin-offline": "^3.4.0",
+    "gatsby-plugin-react-helmet": "^3.4.0",
+    "gatsby-plugin-sharp": "^2.8.0",
+    "gatsby-plugin-typescript": "^2.10.0",
+    "gatsby-source-filesystem": "^2.5.0",
+    "gatsby-transformer-sharp": "^2.6.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "react-helmet": "^6.1.0",
+    "typescript": "^4.1.3",
+    "apollo-server-lambda": "^2.19.2",
+    "faunadb": "^4.0.0",
+    "graphql": "^14.7.0",
+    "formik": "^2.2.0",
+    "material-ui": "^0.20.2",
+    "@material-ui/core": "^4.11.2",
+    "@material-ui/icons": "^4.11.2"
+  }
+}
