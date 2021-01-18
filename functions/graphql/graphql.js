@@ -8,8 +8,7 @@ const typeDefs = gql`
   }
   type Mutation {
     addBookMark(title: String,url: String): BookMark
-    deleteTodo(id: ID!): BookMark
-    updateTodo(status: Boolean! ,id:ID!,task:String!): BookMark
+    deleteBookMark(id: ID!): BookMark
   }
   type BookMark {
     id: ID!
@@ -20,7 +19,7 @@ const resolvers = {
   Query: {
     BookMarks: async (parent, args, context) => {
       try {
-        var client = new faunadb.Client({ secret:"fnAD_yg40vACB6lgaLrJljlCJZ698-kMtMtr-3wZ" });
+        var client = new faunadb.Client({ secret: "fnAD_yg40vACB6lgaLrJljlCJZ698-kMtMtr-3wZ" });
         let result = await client.query(
           q.Map(
             q.Paginate(q.Match(q.Index('bookmark_index'))),
@@ -34,7 +33,8 @@ const resolvers = {
             title: d.data.title,
             url: d.data.url
           }
-        })     }
+        })
+      }
       catch (err) {
         console.log(err)
       }
@@ -42,9 +42,9 @@ const resolvers = {
 
   },
   Mutation: {
-    addBookMark: async (_, { title,url }) => {
+    addBookMark: async (_, { title, url }) => {
       try {
-        var client = new faunadb.Client({ secret: "fnAD_yg40vACB6lgaLrJljlCJZ698-kMtMtr-3wZ"});
+        var client = new faunadb.Client({ secret: "fnAD_yg40vACB6lgaLrJljlCJZ698-kMtMtr-3wZ" });
         let result = await client.query(
           q.Create(
             q.Collection('bookmarks'),
@@ -56,33 +56,20 @@ const resolvers = {
             },
           )
         );
-        return result;
+        return result.data;
       } catch (err) {
         return err.toString();
       }
     },
-    updateTodo: async (_, {id,task, status }) => {
+
+    deleteBookMark: async (_, { id }) => {
       try {
-        var client = new faunadb.Client({ secret: process.env.FAUNADB_SECRET });
-        let result = await client.query(
-          q.Replace(
-            q.Ref(q.Collection('bookmarks'), id),
-            { data: { task:task,status: true } },
-          )
-        );
-        return result.ref.data;
-      } catch (err) {
-        return err.toString();
-      }
-    },
-    deleteTodo: async (_, { id }) => {
-      try {
-        var client = new faunadb.Client({ secret: process.env.FAUNADB_SECRET });
+        var client = new faunadb.Client({ secret: "fnAD_yg40vACB6lgaLrJljlCJZ698-kMtMtr-3wZ" });
         let result = await client.query(
           q.Delete(
-            q.Ref(q.Collection('todos'), id)
+            q.Ref(q.Collection('bookmarks'), id)
           )
-        ); 
+        ); console.log(result)
         return result.ref.data;
       } catch (err) {
         return err.toString();

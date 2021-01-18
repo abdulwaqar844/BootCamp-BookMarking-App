@@ -1,6 +1,5 @@
 import React from "react"
 import { useQuery, useMutation } from '@apollo/client';
-import Completedicon from "./../Images/Completedicon.png"
 import style from "./index.module.css"
 import CircularProgress from "@material-ui/core/CircularProgress"
 import { makeStyles } from '@material-ui/core/styles';
@@ -8,7 +7,8 @@ import Button from '@material-ui/core/Button';
 import { Formik } from "formik"
 import TextField from '@material-ui/core/TextField';
 import gql from 'graphql-tag';
-const GET_TODOS = gql`
+import { BookMark } from "../components/BookMark";
+const GET_BOOKMARKS = gql`
 {
   BookMarks  {
   id
@@ -21,20 +21,6 @@ const ADD_BOOKMARK = gql`
       addBookMark(title: $title,url:$url){
             title
             url
-        }
-    }`
-const DELETE_TODOS = gql`
-    mutation deleteTodo($id: ID!){
-      deleteTodo(id: $id){
-            id
-        }
-    }`
-const UPDATE_TODO = gql`
-    mutation updateTodo($status: Boolean! , $id:ID!,$task: String!){
-      updateTodo(status: $status id:$id task: $task){
-        id    
-        status
-        task
         }
     }`
 const useStyles = makeStyles((theme) => ({
@@ -55,33 +41,16 @@ const useStyles = makeStyles((theme) => ({
 export default function Index() {
   const classes = useStyles();
   const [addBookMark] = useMutation(ADD_BOOKMARK);
-  const [updateTodo] = useMutation(UPDATE_TODO);
-  const handleupdate = (Obj) => {
-    updateTodo({
-      variables: {
-        id: Obj.id,
-        task: Obj.task,
-        status: Obj.status
-      },
-      refetchQueries: [{ query: GET_TODOS }]
-    })
-    console.log(Obj)
+  const { loading, error, data } = useQuery(GET_BOOKMARKS);
+  if (error) {
+    return (
+      <h1>An Error occured</h1>
+    )
   }
-  const [deleteTodo] = useMutation(DELETE_TODOS);
-  const handleDelete = (id) => {
-    deleteTodo({
-      variables: {
-        id
-      },
-      refetchQueries: [{ query: GET_TODOS }]
-    })
-  }
-
-
-  const { loading, error, data } = useQuery(GET_TODOS);
   return (
-    <div className={style.container}>
-
+    <div >
+      <div className={style.content}>
+<h1 className={style.text}>Add New Bookmark</h1>
       <Formik
         initialValues={{ title: '', url: '' }}
         validate={values => {
@@ -100,7 +69,7 @@ export default function Index() {
               title: values.title,
               url: values.url
             },
-            refetchQueries: [{ query: GET_TODOS }]
+            refetchQueries: [{ query: GET_BOOKMARKS }]
           })
           resetForm({})
 
@@ -131,13 +100,14 @@ export default function Index() {
               onBlur={handleBlur}
               value={values.title}
 
-            /><br/>
+            /><br />
 
             {errors.title && touched.title && errors.title}
-            <br/>
+            <br />
 
             <TextField
               id="standard-basic"
+              prefix="http://"
               label="URL"
               type="text"
               name="url"
@@ -145,9 +115,9 @@ export default function Index() {
               onBlur={handleBlur}
               value={values.url}
 
-            /><br/>
+            /><br />
             {errors.url && touched.url && errors.url}
-            <br/>
+            <br />
 
 
 
@@ -157,36 +127,28 @@ export default function Index() {
           </form>
         )}
       </Formik>
+      </div>
       {loading ? (
         <div>
           <CircularProgress />
         </div>
       ) : data.BookMarks.length >= 1 ? (
-        <table className={style.data}  >
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>URL</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.BookMarks.map(d => {
-              return (
-                <tr key={d.id}>
-                  <td className={style.task}>{d.title}</td>
-                  <td className={style.status}>{d.url}</td>
-                </tr>
-              )
-            }
-            )}
-          </tbody>
-        </table>
+
+        data.BookMarks.map(d => {
+          return (
+            <div className={style.bmcontainer}>
+              <BookMark id={d.id} title={d.title} url={d.url} />
+            </div>
+          )
+        }
+        )
+
+
       ) : (
             <div className="no-task">
               <h4>No Book Marks</h4>
             </div>
-      )}
+          )}
     </div>
   )
 }

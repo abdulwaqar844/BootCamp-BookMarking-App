@@ -1,0 +1,23 @@
+
+.bookmark{
+    border: 2px outset rgb(44, 37, 37);
+    background-color: #ffffff;    
+    text-align: center; 
+    border-radius: 15px;
+}
+
+  .content{
+    width: 330px;
+    background: #888f9e49;
+    border-radius: 15px;
+    padding: 15px 8px;
+    box-shadow: -3px -3px 7px hsla(0, 64%, 98%, 0.451),
+                2px 2px 5px #fcfdff49;
+  }
+  
+  .content .text{
+    font-size: 33px;
+    font-weight: 600;
+    margin-bottom: 35px;
+    color: #000;
+  }
