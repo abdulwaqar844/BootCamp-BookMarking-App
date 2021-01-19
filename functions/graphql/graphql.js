@@ -19,7 +19,7 @@ const resolvers = {
   Query: {
     BookMarks: async (parent, args, context) => {
       try {
-        var client = new faunadb.Client({ secret: process.env.FAUNADB_SECRET });
+        var client = new faunadb.Client({ secret:process.env.FAUNADB_SECRET});
         let result = await client.query(
           q.Map(
             q.Paginate(q.Match(q.Index('bookmark_index'))),

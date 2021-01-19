@@ -49,7 +49,7 @@ export default function Index() {
   }
   return (
     <div >
-      <div className={style.content}>
+      <div className={style.content1}>
 <h1 className={style.text}>Add New Bookmark</h1>
       <Formik
         initialValues={{ title: '', url: '' }}
