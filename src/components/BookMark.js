@@ -31,7 +31,7 @@ export const BookMark = (prop) => {
         <div className={style.content}>
             <div className={style.bookmark} key={prop.id}>
                 <h3>{prop.title}</h3>
-                <h3>{prop.url}</h3>
+                <h3><a href={`https://${prop.url}`}>{prop.url}</a></h3>
                 <Button variant="contained" color="secondary" type="submit"     onClick={() => handleDelete(prop.id)}>Delete</Button> 
             </div>
         </div>
