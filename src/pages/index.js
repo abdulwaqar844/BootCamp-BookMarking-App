@@ -1,7 +1,6 @@
 import React from "react"
 import { useQuery, useMutation } from '@apollo/client';
 import style from "./index.module.css"
-import CircularProgress from "@material-ui/core/CircularProgress"
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { Formik } from "formik"
@@ -42,97 +41,97 @@ export default function Index() {
   const classes = useStyles();
   const [addBookMark] = useMutation(ADD_BOOKMARK);
   const { loading, error, data } = useQuery(GET_BOOKMARKS);
-  if (error) {
-    return (
-      <h1>An Error occured</h1>
-    )
-  }
+  
   return (
     <div >
       <div className={style.content1}>
-<h1 className={style.text}>Add New Bookmark</h1>
-      <Formik
-        initialValues={{ title: '', url: '' }}
-        validate={values => {
-          const errors = {};
-          if (!values.title) {
-            errors.title = 'Required';
-          } if (!values.url) {
-            errors.url = 'Required';
+        <h1 className={style.text}>Add New Bookmark</h1>
+        <Formik
+          initialValues={{ title: '', url: '' }}
+          validate={values => {
+            const errors = {};
+            if (!values.title) {
+              errors.title = 'Required';
+            } if (!values.url) {
+              errors.url = 'Required';
+            }
+            return errors;
+
+          }}
+          onSubmit={(values, { resetForm }) => {
+            addBookMark({
+              variables: {
+                title: values.title,
+                url: values.url
+              },
+              refetchQueries: [{ query: GET_BOOKMARKS }]
+            })
+            resetForm({})
+
           }
-          return errors;
-
-        }}
-        onSubmit={(values, { resetForm }) => {
-          addBookMark({
-            variables: {
-              title: values.title,
-              url: values.url
-            },
-            refetchQueries: [{ query: GET_BOOKMARKS }]
-          })
-          resetForm({})
-
-        }
 
 
 
-        }
-      >
-        {({
-          values,
-          errors,
-          touched,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          /* and other goodies */
-        }) => (
-          <form className={classes.root} noValidate autoComplete="off"
-            onSubmit={handleSubmit}
-          >
-            <TextField
-              id="standard-basic"
-              label="Title"
-              type="text"
-              name="title"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.title}
+          }
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            /* and other goodies */
+          }) => (
+            <form className={classes.root} noValidate autoComplete="off"
+              onSubmit={handleSubmit}
+            >
+              <TextField
+                id="standard-basic"
+                label="Title"
+                type="text"
+                name="title"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.title}
 
-            /><br />
+              /><br />
 
-            {errors.title && touched.title && errors.title}
-            <br />
+              {errors.title && touched.title && errors.title}
+              <br />
 
-            <TextField
-              id="standard-basic"
-              prefix="http://"
-              label="URL"
-              type="text"
-              name="url"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.url}
+              <TextField
+                id="standard-basic"
+                prefix="http://"
+                label="URL"
+                type="text"
+                name="url"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={values.url}
 
-            /><br />
-            {errors.url && touched.url && errors.url}
-            <br />
+              /><br />
+              {errors.url && touched.url && errors.url}
+              <br />
 
 
 
-            <Button variant="contained" color="primary" type="submit"     >
-              Add BookMark
+              <Button variant="contained" color="primary" type="submit"     >
+                Add BookMark
             </Button>
-          </form>
-        )}
-      </Formik>
+            </form>
+          )}
+        </Formik>
       </div>
-      {loading ? (
+      {error ? (
         <div>
-          <CircularProgress />
+          <h1>Error</h1>
         </div>
-      ) : data.BookMarks.length >= 1 ? (
+      ): loading ? (
+        <div>
+          <h2>Loading ...</h2>
+        </div>
+      ) : data.BookMarks.length >= 1  ? (
 
         data.BookMarks.map(d => {
           return (

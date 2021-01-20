@@ -1,9 +1,11 @@
 
 .bookmark{
-    border: 2px outset rgb(44, 37, 37);
+    border: 2px outset rgb(156, 151, 151);
     background-color: #ffffff;    
     text-align: center; 
     border-radius: 15px;
+    height: 140px;
+    padding-top: 8px;
 }
 
   .content{

@@ -30,8 +30,8 @@ html,body{
   .content1{
     border: 2px outset rgb(191, 227, 231);
     background: #f9fbff;
-    margin-left: 220px;
-    margin-right: 220px;
+    margin-left: 9%;
+    margin-right: 9%;
     border-radius: 10px;
     box-shadow: -3px -3px 7px #C5CAD2,
                 2px 2px 5px #C5CAD2;
