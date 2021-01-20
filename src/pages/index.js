@@ -123,6 +123,7 @@ export default function Index() {
           )}
         </Formik>
       </div>
+      <h1>All Bookmarks</h1>
       {error ? (
         <div>
           <h1>Error</h1>
